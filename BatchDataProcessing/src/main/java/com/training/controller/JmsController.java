@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.training.bean.FailedProduct;
 import com.training.bean.Product;
 
 @RestController
+@RequestMapping("/")
 public class JmsController {
 	
 	@Autowired
@@ -20,18 +23,16 @@ public class JmsController {
 	@Autowired
 	private JmsTemplate jmsTemplate;
 	
-	@GetMapping("/mq/publish/{message}")
-	public String publish(@PathVariable("message") String message) {
-		
-		jmsTemplate.convertAndSend(queue,message);
-		return message+" published.";
+	@GetMapping("")
+	public String welcome() {
+		return "Hello, Product Manager/Owner.";
 	}
 	
-	@PostMapping("/mq/publishproduct")
-	public Product publishedProduct(@RequestBody Product product) {
+	@PostMapping("/")
+	public FailedProduct publishedProduct(@RequestBody FailedProduct failedProduct) {
 		
-		jmsTemplate.convertAndSend(queue,product);
-		return product;
+		jmsTemplate.convertAndSend(queue,failedProduct);
+		return failedProduct;
 	}
 	
 }

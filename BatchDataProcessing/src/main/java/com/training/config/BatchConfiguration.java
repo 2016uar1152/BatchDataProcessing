@@ -46,6 +46,7 @@ public class BatchConfiguration {
 				.resource(new ClassPathResource("SKU-Masterdata-sample-file.csv"))
 				.delimited()
 				.delimiter(";")
+				//.quoteCharacter('\\')
 				.names(new String[]{"upc", "productDesc", "artistId", "orgId", "configId", "releaseDate"})
 				.fieldSetMapper(new BeanWrapperFieldSetMapper<Product>() {{
 					setTargetType(Product.class);

@@ -11,6 +11,8 @@ import org.springframework.jms.support.converter.MappingJackson2MessageConverter
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 
+import com.training.bean.FailedProduct;
+
 @EnableJms
 @Configuration
 public class ActiveMqConfiguration {

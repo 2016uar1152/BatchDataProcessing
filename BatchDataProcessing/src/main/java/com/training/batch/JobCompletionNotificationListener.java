@@ -15,7 +15,6 @@ import com.training.bean.Product;
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
 
 	private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
-
 	private final JdbcTemplate jdbcTemplate;
 
 	@Autowired
