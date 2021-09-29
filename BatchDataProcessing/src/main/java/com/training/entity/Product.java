@@ -11,10 +11,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="product")
-public class Product{ //implements Serializable
+public class Product{ 
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="uniqueNumber")
 	private long uniqueNumber; //unique number
 	
