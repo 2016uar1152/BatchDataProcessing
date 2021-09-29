@@ -22,12 +22,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
 import com.training.batch.JobCompletionNotificationListener;
-import com.training.batch.PersonItemProcessor;
+import com.training.batch.ProductItemProcessor;
 import com.training.bean.Product;
 
 
 @Configuration
-//@EnableBatchProcessing
+@EnableBatchProcessing
 public class BatchConfiguration {
 
 	private Logger log=LoggerFactory.getLogger(BatchConfiguration.class);
@@ -42,10 +42,11 @@ public class BatchConfiguration {
 	public FlatFileItemReader<Product> reader() {
 		log.info("Reading the csv file..");
 		return new FlatFileItemReaderBuilder<Product>()
-				.name("personItemReader")
-				.resource(new ClassPathResource("sample-data.csv"))
+				.name("productItemReader")
+				.resource(new ClassPathResource("SKU-Masterdata-sample-file.csv"))
 				.delimited()
-				.names(new String[]{"custId", "mobileNo"})
+				.delimiter(";")
+				.names(new String[]{"upc", "productDesc", "artistId", "orgId", "configId", "releaseDate"})
 				.fieldSetMapper(new BeanWrapperFieldSetMapper<Product>() {{
 					setTargetType(Product.class);
 				}})
@@ -53,16 +54,16 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public PersonItemProcessor processor() {
-		return new PersonItemProcessor();
+	public ProductItemProcessor processor() {
+		return new ProductItemProcessor();
 	}
 
 	@Bean
 	public JdbcBatchItemWriter<Product> writer(DataSource dataSource) {
-		log.info("updating data into db..");
+		log.info("Storing data into db..");
 		return new JdbcBatchItemWriterBuilder<Product>()
 				.itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
-				.sql("UPDATE customer SET mobile_no = :mobileNo WHERE cust_id = :custId")
+				.sql("INSERT INTO product(upc, product_desc, artist_id, org_id, config_id, release_date) VALUES (:upc, :productDesc, :artistId, :orgId, :configId, :releaseDate)")
 				.dataSource(dataSource)
 				.build();
 	}

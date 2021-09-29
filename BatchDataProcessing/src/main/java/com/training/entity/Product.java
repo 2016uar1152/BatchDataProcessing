@@ -1,5 +1,7 @@
 package com.training.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,18 +11,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="product")
-public class Product {
+public class Product{ //implements Serializable
 	
 	@Id
-	//@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="key")
-	private long key; //unique number
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="uniqueNumber")
+	private long uniqueNumber; //unique number
 	
 	@Column(name="upc",length=14)
 	private String upc;
 	@Column(name="productDesc",length=200)
 	private String productDesc;
-	@Column(name="artistId",length=7)
+	@Column(name="artistId",length=10)
 	private String artistId;
 	@Column(name="orgId",length=8)
 	private String orgId;
@@ -34,10 +36,10 @@ public class Product {
 	public Product() {
 		super();
 	}
-	public Product(long key, String upc, String productDesc, String artistId, String orgId, String configId,
+	public Product(long uniqueNumber, String upc, String productDesc, String artistId, String orgId, String configId,
 			String releaseDate) {
 		super();
-		this.key = key;
+		this.uniqueNumber = uniqueNumber;
 		this.upc = upc;
 		this.productDesc = productDesc;
 		this.artistId = artistId;
@@ -56,11 +58,11 @@ public class Product {
 		this.configId = configId;
 		this.releaseDate = releaseDate;
 	}
-	public long getKey() {
-		return key;
+	public long getUniqueNumber() {
+		return uniqueNumber;
 	}
-	public void setKey(long key) {
-		this.key = key;
+	public void setUniqueNumber(long uniqueNumber) {
+		this.uniqueNumber = uniqueNumber;
 	}
 	public String getUpc() {
 		return upc;
@@ -100,7 +102,7 @@ public class Product {
 	}
 	@Override
 	public String toString() {
-		return "Product [key=" + key + ", upc=" + upc + ", productDesc=" + productDesc + ", artistId=" + artistId
+		return "Product [uniqueNumber=" + uniqueNumber + ", upc=" + upc + ", productDesc=" + productDesc + ", artistId=" + artistId
 				+ ", orgId=" + orgId + ", configId=" + configId + ", releaseDate=" + releaseDate + "]";
 	}
 	

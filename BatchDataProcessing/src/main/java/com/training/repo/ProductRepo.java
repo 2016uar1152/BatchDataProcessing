@@ -10,5 +10,4 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 	
 	
 	
-	
 }

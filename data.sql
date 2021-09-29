@@ -1,0 +1,1 @@
+create table product(unique_number INT PRIMARY KEY AUTO_INCREMENT, upc varchar(14), product_desc varchar(200),artist_id varchar(7),org_id varchar(8),config_id varchar(25),release_date varchar(8) );
