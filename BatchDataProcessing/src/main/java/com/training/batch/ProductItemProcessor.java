@@ -20,10 +20,7 @@ import com.training.bean.Product;
 public class ProductItemProcessor implements ItemProcessor<Product, Product> {
 
 	private static final Logger log = LoggerFactory.getLogger(ProductItemProcessor.class);
-	public static long processCounter;
-
-//	@Autowired
-//	private ActiveMqProducer activeMqProducer;
+	public static int processCounter;
 	
 	@Autowired
 	private JmsTemplate jmsTemplate;
@@ -86,19 +83,6 @@ public class ProductItemProcessor implements ItemProcessor<Product, Product> {
 
 	}
 
-	//	private static final java.text.SimpleDateFormat sdf = 
-	//			new java.text.SimpleDateFormat("yyyyMMdd");
-	//
-	//	public static LocalDate verifyInput(String input) {
-	//		try {
-	//			LocalDate ret = sdf.parse(input.trim());
-	//			if (sdf.format(ret).equals(input.trim())) return ret;
-	//		} catch (ParseException e) {
-	//			e.printStackTrace();
-	//		}
-	//		return null;
-	//	}
-
 	public static String verifyInput(String input) {
 		String yyyy="";String mm="";String dd="";
 		yyyy+=input.substring(0, 4);
@@ -112,6 +96,5 @@ public class ProductItemProcessor implements ItemProcessor<Product, Product> {
 		}
 	}
 
-
-
-}
+	
+}	

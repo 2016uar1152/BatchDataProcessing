@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.training.bean.Product;
+import com.training.bean.SendEmail;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
@@ -21,16 +22,21 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 	public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
+	
+	@Autowired
+	public SendEmail sendEmail;
 
 	@Override
 	public void afterJob(JobExecution jobExecution) {
-		if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
-			log.info("!!! JOB FINISHED! Time to verify the results");
-
-			jdbcTemplate.query( "SELECT upc, product_desc, artist_id, org_id, config_id, release_date FROM product",(rs, row) -> new Product(rs.getString(1), rs.getString(2),
-					rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6))
-								).forEach( product -> log.info("Found <" + product + "> updated in the database.")
-											);
+		if(jobExecution.getStatus() == BatchStatus.COMPLETED)
+		{
+			log.info("!!! JOB FINISHED! Time to notify the owner");
+			
+			int passedProducts = jdbcTemplate.queryForObject(
+				    "SELECT COUNT(*) FROM product", Integer.class);
+			
+			sendEmail.mail(ProductItemProcessor.processCounter,passedProducts);
+			
 		}
 	}
 }
