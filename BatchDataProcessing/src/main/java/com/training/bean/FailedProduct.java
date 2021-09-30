@@ -10,13 +10,13 @@ public class FailedProduct implements Serializable{
 	private String orgId;
 	private String configId;
 	private String releaseDate;
-	private int messageId;
+	private long messageId;
 	
 	public FailedProduct() {
 		super();
 	}
 	public FailedProduct(String upc, String productDesc, String artistId, String orgId, String configId,
-			String releaseDate, int messageId) {
+			String releaseDate, long messageId) {
 		super();
 		this.upc = upc;
 		this.productDesc = productDesc;
@@ -27,7 +27,7 @@ public class FailedProduct implements Serializable{
 		this.messageId = messageId;
 	}
 	// another constructor for setting product object to failedProduct parameters
-	public FailedProduct(Product product, int messageId) {
+	public FailedProduct(Product product, long messageId) {
 		super();
 		this.upc = product.getUpc();
 		this.productDesc = product.getProductDesc();
@@ -73,10 +73,10 @@ public class FailedProduct implements Serializable{
 	public void setReleaseDate(String releaseDate) {
 		this.releaseDate = releaseDate;
 	}
-	public int getMessageId() {
+	public long getMessageId() {
 		return messageId;
 	}
-	public void setMessageId(int messageId) {
+	public void setMessageId(long messageId) {
 		this.messageId = messageId;
 	}
 	

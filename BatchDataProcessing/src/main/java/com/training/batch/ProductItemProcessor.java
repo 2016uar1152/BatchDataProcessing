@@ -13,6 +13,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 
+import com.training.bean.ActiveMqProducer;
 import com.training.bean.FailedProduct;
 import com.training.bean.Product;
 

@@ -10,7 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.training.bean.Product;
-import com.training.queue.SendEmail;
+import com.training.bean.SendEmail;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
