@@ -27,41 +27,51 @@ import com.training.queue.ActiveMqConsumer;
 import com.training.bean.FailedProduct;
 import com.training.bean.Product;
 
-@Controller
+//@Controller
 @RequestMapping("")
 public class ConsumerController {
 
 	@Autowired
 	private ActiveMqConsumer activeMqConsumer;
-	
-	@RequestMapping(value="/" )
-	public String index()
-	{
-		return "index";
-	}
-	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public ModelAndView save(@ModelAttribute FailedProduct failedProduct){
-		String[] reasonArray = {"", "UPC can't be empty!!", "Code for Artist ID cannot be empty or have more than 7 digits.",
-			"Code for Organisation ID cannot be empty or more than 8 digits.","Release Date format is incorrect. Only YYYYMMDD allowed.",
-			"Release Date must have 8 digits."};
-		String[] columnArray = {"", "New UPC ID:", "New Artist ID:",
-			"New Org ID:","New Release Date: ", "New Release Date: "};
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("user-data");
-		modelAndView.addObject("failedProduct", failedProduct);
-		modelAndView.addObject("message", reasonArray[failedProduct.getMessageId()]);
-		return modelAndView;
-	}
+
+	/*
+	 * @RequestMapping(value="/" ) public String index() { return "index"; }
+	 */
+
+	/*
+	 * @RequestMapping(value="/index", method=RequestMethod.POST) public
+	 * ModelAndView index(@ModelAttribute List<FailedProduct> prods) { prods =
+	 * activeMqConsumer.list; ModelAndView modelAndView = new ModelAndView();
+	 * modelAndView.setViewName("index");
+	 * modelAndView.addObject("failedProductList", prods);
+	 * //model.addAttribute("failedProductList", prods); return modelAndView; }
+	 * 
+	 * @RequestMapping(value="/save", method=RequestMethod.POST) public ModelAndView
+	 * save(@ModelAttribute FailedProduct failedProduct){ String[] reasonArray =
+	 * {"", "UPC can't be empty!!",
+	 * "Code for Artist ID cannot be empty or have more than 7 digits.",
+	 * "Code for Organisation ID cannot be empty or more than 8 digits."
+	 * ,"Release Date format is incorrect. Only YYYYMMDD allowed.",
+	 * "Release Date must have 8 digits."}; String[] columnArray = {"",
+	 * "New UPC ID:", "New Artist ID:", "New Org ID:","New Release Date: ",
+	 * "New Release Date: "}; ModelAndView modelAndView = new ModelAndView();
+	 * modelAndView.setViewName("user-data");
+	 * modelAndView.addObject("failedProduct", failedProduct);
+	 * modelAndView.addObject("message", reasonArray[failedProduct.getMessageId()]);
+	 * return modelAndView; }
+	 */
+
 
 	//@JmsListener(destination = "ProductQueue")
+
 	@GetMapping("products/modify")
 	public String modifier(){
-
 		//ActiveMqConsumer activeMqConsumer=new ActiveMqConsumer();
 		//activeMqConsumer.listener();
 		activeMqConsumer.processFailedProducts(activeMqConsumer.list);
 		return "All products processed successfully.";
 	}
+
 
 
 }

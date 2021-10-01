@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.training.bean.Product;
+import com.training.queue.ActiveMqConsumer;
 import com.training.queue.SendEmail;
 
 @Component
@@ -17,7 +18,10 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 
 	private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 	private final JdbcTemplate jdbcTemplate;
-
+	
+	@Autowired
+	private ActiveMqConsumer activeMqConsumer;
+	
 	@Autowired
 	public JobCompletionNotificationListener(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
@@ -36,6 +40,8 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 				    "SELECT COUNT(*) FROM product", Integer.class);
 			
 			sendEmail.mail(ProductItemProcessor.processCounter,passedProducts);
+			
+			activeMqConsumer.processFailedProducts(activeMqConsumer.list);
 			
 		}
 	}

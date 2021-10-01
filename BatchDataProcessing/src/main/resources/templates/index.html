@@ -1,29 +1,21 @@
-<html lang="en">
-<head>
-<title>form</title>
-</head>
-<body>
-<form action="save" method="post">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<html xmlns:th="https://thymeleaf.org">
+<!--<form action="save" method="post">-->
 <table>
 <h1>WELCOME CONSUMER.!!</h1>
-<tr>
-<td><label for="failed-product">Failed Product</label></td>
-<td><label for="failed-product">Failed Product</label></td>
-</tr>
-<tr>
-<td><label for="reason">Reason</label></td>
-<td><input type="text" name="reason"></input></td>
-</tr>
-<tr>
-<td><label for="modify-id">Modify ID</label></td>
-<td><input type="text" name="modify-id"></input></td>
-</tr>
-<tr>
-<td></td>
-<td><input type="submit" value="Submit"></input></td>
+<tr th:each="failedProduct": "${failedProductList}">
+<td th:text="${failedProduct.upc}" />
+<td th:text="${failedProduct.productDesc}" />
+<td th:text="${failedProduct.artistId}" />
+<td th:text="${failedProduct.orgId" />
+<td th:text="${failedProduct.configId}" />
+<td th:text="${failedProduct.releaseDate" />
+<td th:text="${failedProduct.messageId" />
+<td><input type="submit" value="Modify"></input></td>
 </tr>
 </table>
-</form>
-</body>
+<!--</form>-->
 </html>
-

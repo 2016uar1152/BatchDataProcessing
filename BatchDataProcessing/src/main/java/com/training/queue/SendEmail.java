@@ -21,16 +21,12 @@ public class SendEmail {
 	
     public void mail(int totalProcessed, int passedProducts) {
 
-        // Recipient's email ID needs to be mentioned.
-        String to = "kajal.jha@invenio-solutions.com";
+        String to = "mohitkashyap656@gmail.com";
 
-        // Sender's email ID needs to be mentioned
         String from = "pallav945@gmail.com";
 
-        // Assuming you are sending email from through gmails smtp
         String host = "smtp.gmail.com";
-        
-        // Get system properties
+
         Properties properties = System.getProperties();
 
         // Setup mail server
@@ -50,24 +46,20 @@ public class SendEmail {
 
         });
 
-        // Used to debug SMTP issues
+
         session.setDebug(true);
 
         try {
-            // Create a default MimeMessage object.
+
             MimeMessage message = new MimeMessage(session);
 
-            // Set From: header field of the header.
             message.setFrom(new InternetAddress(from));
 
-            // Set To: header field of the header.
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 
-            // Set Subject: header field
             message.setSubject("UPDATE: Batch processing!!");
 
-            // Now set the actual message
-            message.setText("Dear Product Owner/Manager,\nBatch processing completed successfully.\nTotal Products processed: "+totalProcessed+"\nTotal products passed: "+passedProducts+"\nTotal failed: "+(totalProcessed-passedProducts)+"\nLink to modify failed products: +link+\nThis is an auto-generated mail. Please do not reply.\n\nTHANKS,\n-Team 1");
+            message.setText("Dear Product Owner/Manager,\nBatch processing completed successfully.\nTotal Products processed: "+totalProcessed+"\nTotal products passed: "+passedProducts+"\nTotal failed: "+(totalProcessed-passedProducts)+"\nLink to modify failed products: link\nThis is an auto-generated mail. Please do not reply.\n\nTHANKS,\nAtharv,Chandu,Kajal,Mohit,Pallav.");
 
             System.out.println("sending...");
             // Send message

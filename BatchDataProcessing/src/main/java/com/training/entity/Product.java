@@ -9,15 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.training.bean.FailedProduct;
+
 @Entity
 @Table(name="product")
 public class Product{ 
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="uniqueNumber")
 	private long uniqueNumber; //unique number
-	
+
 	@Column(name="upc",length=14)
 	private String upc;
 	@Column(name="productDesc",length=200)
@@ -30,9 +32,9 @@ public class Product{
 	private String configId;
 	@Column(name="releaseDate",length=8)
 	private String releaseDate;
-	
-	
-	
+
+
+
 	public Product() {
 		super();
 	}
@@ -58,6 +60,17 @@ public class Product{
 		this.configId = configId;
 		this.releaseDate = releaseDate;
 	}
+	//constructor without auto generated value
+	public Product(FailedProduct failedProduct) {
+		super();
+		this.upc = failedProduct.getUpc();
+		this.productDesc = failedProduct.getProductDesc();
+		this.artistId = failedProduct.getArtistId();
+		this.orgId = failedProduct.getOrgId();
+		this.configId = failedProduct.getConfigId();
+		this.releaseDate = failedProduct.getReleaseDate();
+	}
+
 	public long getUniqueNumber() {
 		return uniqueNumber;
 	}
@@ -105,9 +118,9 @@ public class Product{
 		return "Product [uniqueNumber=" + uniqueNumber + ", upc=" + upc + ", productDesc=" + productDesc + ", artistId=" + artistId
 				+ ", orgId=" + orgId + ", configId=" + configId + ", releaseDate=" + releaseDate + "]";
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 }

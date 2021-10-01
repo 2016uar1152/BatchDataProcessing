@@ -43,7 +43,7 @@ public class BatchConfiguration {
 		log.info("Reading the csv file..");
 		return new FlatFileItemReaderBuilder<Product>()
 				.name("productItemReader")
-				.resource(new ClassPathResource("SKU-Masterdata-sample-file.csv"))
+				.resource(new ClassPathResource("SKU-Masterdata-sample-file-6000.csv"))
 				.delimited()
 				.delimiter(";")
 				.quoteCharacter('"')
@@ -85,7 +85,7 @@ public class BatchConfiguration {
 
 		log.info("Step Builder");
 		return stepBuilderFactory.get("step1")
-				.<Product, Product> chunk(5)
+				.<Product, Product> chunk(40)
 				.reader(reader())
 				.processor(processor())
 				.writer(writer)

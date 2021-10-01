@@ -1,6 +1,7 @@
 package com.training.batch;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
@@ -20,10 +21,10 @@ public class ProductItemProcessor implements ItemProcessor<Product, Product> {
 
 	private static final Logger log = LoggerFactory.getLogger(ProductItemProcessor.class);
 	public static int processCounter;
-	
+
 	@Autowired
 	private JmsTemplate jmsTemplate;
-	
+
 	@Autowired
 	private ActiveMQQueue queue;
 
@@ -34,8 +35,8 @@ public class ProductItemProcessor implements ItemProcessor<Product, Product> {
 
 		if(product.getUpc().length()==0)
 		{	FailedProduct failedProduct = new FailedProduct(product,1);
-			jmsTemplate.convertAndSend(queue,failedProduct);
-			return null;
+		jmsTemplate.convertAndSend(queue,failedProduct);
+		return null;
 		} else {}
 
 		if(product.getArtistId().length()>0 && product.getArtistId().length()<=7)
@@ -50,20 +51,20 @@ public class ProductItemProcessor implements ItemProcessor<Product, Product> {
 
 		if(product.getOrgId().length()==0)
 		{	FailedProduct failedProduct = new FailedProduct(product,3);
-			jmsTemplate.convertAndSend(queue,failedProduct);
-			return null;
+		jmsTemplate.convertAndSend(queue,failedProduct);
+		return null;
 		} else {}
 
 		if(product.getReleaseDate().length()==8) {
 			String releaseDate= verifyInput(product.getReleaseDate());
-				if(releaseDate!=null) {
-					product.setReleaseDate(releaseDate);
-				}
-				else {
-					FailedProduct failedProduct = new FailedProduct(product,4);
-					jmsTemplate.convertAndSend(queue,failedProduct);
-					return null;
-				}
+			if(releaseDate!=null) {
+				product.setReleaseDate(releaseDate);
+			}
+			else {
+				FailedProduct failedProduct = new FailedProduct(product,4);
+				jmsTemplate.convertAndSend(queue,failedProduct);
+				return null;
+			}
 		} else if(product.getReleaseDate().length()==0) {
 			LocalDate today= LocalDate.now();
 			String s="";
@@ -82,18 +83,30 @@ public class ProductItemProcessor implements ItemProcessor<Product, Product> {
 
 	}
 
-	public static String verifyInput(String input) {
-		String yyyy="";String mm="";String dd="";
-		yyyy+=input.substring(0, 4);
-		mm+=input.substring(4, 6);
-		dd+=input.substring(6, 8);
-		try {
-			LocalDate.parse(yyyy+"-"+mm+"-"+dd);
-			return input;
-		}catch(DateTimeParseException e) {
-			return null;
-		}
-	}
-
+//	public static String verifyInput(String input) {
+//		String yyyy="";String mm="";String dd="";
+//		yyyy+=input.substring(0, 4);
+//		mm+=input.substring(4, 6);
+//		dd+=input.substring(6, 8);
+//		try {
+//			LocalDate.parse(yyyy+"-"+mm+"-"+dd);
+//			return input;
+//		}catch(DateTimeParseException e) {
+//			return null;
+//		}
+//	}
 	
+	private static String verifyInput(String strDate){
+		String strDateRegEx = "\\d{4}(0[1-9]|1[012])(0[1-9]|[12][0-9]|[3][01])";
+		if(strDate.matches(strDateRegEx)){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			try{
+				sdf.parse(strDate);
+				return strDate;
+			}catch(ParseException e){}
+		}
+		return null;
+	}
+	
+
 }	
